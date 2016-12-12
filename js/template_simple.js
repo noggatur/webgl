@@ -1,16 +1,38 @@
-function init() {
-  var scene = new THREE.Scene();
+var scene = new THREE.Scene();
+var renderer = window.WebGLRenderingContext ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer(); // Для отображения сцены в тех браузерах, в которых нет поддержки WebGL
+var camera;
 
-  var renderer = window.WebGLRenderingContext ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer(); // Для отображения сцены в тех браузерах, в которых нет поддержки WebGL
+var stats = new Stats();
+
+function init() {
   renderer.setClearColor(new THREE.Color(0xEEEEEE));
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.getElementById("WebGL_output").appendChild(renderer.domElement);
 
+  // статистика
+  stats.setMode(0);
+  stats.domElement.style({
+    position: "absolute",
+    left: 0,
+    top: 0
+  });
+  document.getElementById("WebGL_output").appendChild(stats.domElement);
+
+  // камера
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   // прогать тут
 
-  renderer.render(scene, camera);
+
+
+  render();
 };
+
+function render() {
+  renderer.render(scene, camera);
+
+  // обновление статистики
+  stats.update();
+}
 
 window.onload = init;
