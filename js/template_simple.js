@@ -9,17 +9,21 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.getElementById("WebGL_output").appendChild(renderer.domElement);
 
-  // статистика
-  stats.setMode(0);
-  stats.domElement.style({
-    position: "absolute",
-    left: 0,
-    top: 0
-  });
-  document.getElementById("WebGL_output").appendChild(stats.domElement);
-
   // камера
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  // отслеживание изменения размера окна браузера
+  window.addEventListener("resize", function() {
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  });
+
+  // статистика
+  stats.setMode(0);
+  document.getElementById("WebGL_output").appendChild(stats.domElement);
 
   // прогать тут
 
